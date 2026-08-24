@@ -54,12 +54,12 @@ function getMonoStructsFor( ... )
 
   for i = 1, tableOfNames.n do
  
-    local ok, result, error = pcall( monoAA_GETMONOSTRUCT, tableOfNames[i] , false )
+    local ok, result, err = pcall( monoAA_GETMONOSTRUCT, tableOfNames[i] , false )
 
     if ok and result then
       outStructs = outStructs .. result .. "\n\n"
     else
-      print( error )
+      print( err or "" )
     end
 
   end
