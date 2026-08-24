@@ -4,6 +4,7 @@ Various lua scripts extending Cheat Engine's UX
 ## Scripts
 - Compact Menu
   - adds a toggle to remove scanner view and footer of the main application window
+
 - Extras menu
   - Memory View shortcut
   - Auto Assemble shortcut
@@ -22,11 +23,18 @@ Various lua scripts extending Cheat Engine's UX
   - Add a spacer/separator with no checkbox
   - Set the last offset as a symbol: class.field (field from memrec description)
 
-- Auto Assemble scripts
-  - RIP Relative Address Resolution
-  - Register mono class fields as symbols
-  - get Auto Assemble structs for mono classes
+## Snippets
+- Auto Assemble Get Mono Structs
+- Memory Record Attach Script
+- Auto Attach Script
+- RIP Relative Address Resolution
+- Register mono class fields as symbols
+- Mono get class' static field address
+- Mono get class' static field value
+- Mono invoke class method
 
 ## Usage
 1. Install [Cheat Engine](https://github.com/cheat-engine/cheat-engine).
 2. Copy-merge `autorun` folder from the repo into `Cheat Engine` root directory
+
+- Use scripts in the `snippet` folder to create your own
