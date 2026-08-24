@@ -1,7 +1,7 @@
 --[[
 The function invokes a class method via its class name and method name.
-  If the method is static, passing ptrSymbolName isn't required.
-  Otherwise it has to be a registered symbol string associated with a pointer storing the object address.
+  If the method is static, passing addrSymbolName isn't required.
+  Otherwise it has to be the object's address or a registered symbol string associated with it
 
 Created by palepine.
 ]]
@@ -9,11 +9,11 @@ Created by palepine.
 --- func desc
 ---@param className string @ 'SomeClass'
 ---@param methodName string @ 'SomeMethod'
----@param ptrSymbolName string @ 'PointerSymbol'
+---@param addrSymbolName string @ 'myRegisteredSymbol' or 0xCAFEBABE
 ---@param args table @ { 1, 999 } -- true, 999
 ---@param domainName string @ 'Some.Namespace'
 ---@return any @ whatever the method returns
-function mono_invokeMethodFromClass( className, methodName, ptrSymbolName, args, domainName )
+function mono_invokeMethodFromClass( className, methodName, addrSymbolName, args, domainName )
   if className == nil or className == '' then error('class name invalid') end
   if methodName == nil or methodName == '' then error('method name invalid') end
 
@@ -32,10 +32,10 @@ function mono_invokeMethodFromClass( className, methodName, ptrSymbolName, args,
 
   local addr = 0
   if not isStatic then
-    if ptrSymbolName == nil or ptrSymbolName == '' then
+    if addrSymbolName == nil or addrSymbolName == 0 or addrSymbolName == '' then
       error('instance address required for non-static method')
     end
-    addr = readPointer(ptrSymbolName)
+    addr = getAddress(addrSymbolName)
     if addr == 0 or addr == nil then showMessage('Address not found/resolved!') error('address not found') end
   end
 
