@@ -8,7 +8,7 @@ Created by palepine.
 ---@param className string
 ---@param fieldName string
 ---@param namespace string
-function mono_getStaticField(className, fieldName, namespace)
+function mono_getStaticFieldValue(className, fieldName, namespace)
   if className == nil or className == '' then error('class name invalid') end
 
   if fieldName == nil or fieldName == '' then error('field name invalid') end
