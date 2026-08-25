@@ -12,7 +12,7 @@ Various lua scripts extending Cheat Engine's UX
   - Struct Dissect shortcut
   - Lua Engine shortcut
   - Write Process Name to clipboard
-  - Assembly scanner clipboard
+  - Assembly scanner shortcut
 
 - Custom PopUp menu commands
   - Flatten pointers (multi-level to one-line pointers form)
