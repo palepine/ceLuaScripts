@@ -6,7 +6,7 @@ Created by palepine
 ---@param className string @ 'SomeClass'
 ---@param namespace string @ namespace
 ---@return table|nil @ indexed table with addresses
-function mono_findClassInstances( className, namespace )
+function mono_findClassInstancesByName( className, namespace )
   if className == nil or className == '' then error('class name invalid') end
   local namespace = namespace or ''
 
