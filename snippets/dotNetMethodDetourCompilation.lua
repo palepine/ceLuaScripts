@@ -7,6 +7,9 @@ if syntaxcheck then return end
 local className = 'ChangeToClass'
 local methodDetour = 'changeToMethodToDetour'
 local detourName = className .. '.' .. methodDetour
+local csharpscript = [[
+
+]]
 
 local function tryDisassembleDetour(detourName)
   local detourInfo = dotnetdetours[detourName]
@@ -50,13 +53,10 @@ local function tryCompileDetour(csharpScript)
 end
 if dotnetdetours == nil then dotnetdetours = {} end
 [ENABLE]
-local csharpScript = [[
-
-]]
 
 -- first disasm the detour if we know one
 tryDisassembleDetour( detourName )
-tryCompileDetour( csharpScript )
+tryCompileDetour( csharpscript )
 
 [DISABLE]
 tryDisassembleDetour( detourName )
