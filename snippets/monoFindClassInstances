@@ -1,0 +1,16 @@
+--[[
+Created by palepine
+]]
+
+--- wraps a mono caller to find instances of a class by name/namespace
+---@param className string @ 'SomeClass'
+---@param namespace string @ namespace
+---@return table|nil @ indexed table with addresses
+function mono_findClassInstances( className, namespace )
+  if className == nil or className == '' then error('class name invalid') end
+  local namespace = namespace or ''
+
+  local classID = mono_findClass( namespace, className )
+  if classID == 0 or classID == nil then error('class not found') end
+  return mono_class_findInstancesOfClassListOnly(nil, classID) -- domainid
+end
