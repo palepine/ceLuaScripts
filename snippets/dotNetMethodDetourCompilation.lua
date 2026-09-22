@@ -1,6 +1,6 @@
--- AutoAssemble script for detouring Unity methods
--- credit to DarkByte, just made it easier to follow
--- todo: clean duplicate assmeblies
+// AutoAssemble script for detouring Unity methods
+// credit to DarkByte, just made it easier to follow
+// todo: clean duplicate assmeblies
 
 {$lua}
 if syntaxcheck then return end
