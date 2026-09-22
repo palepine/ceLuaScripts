@@ -1,6 +1,5 @@
 // AutoAssemble script for detouring Unity methods
-// credit to DarkByte, just made it easier to follow
-// todo: clean duplicate assmeblies
+// credit to DarkByte, me, palepine, just made it easier to follow
 
 {$lua}
 if syntaxcheck then return end
@@ -20,9 +19,34 @@ local function tryDisassembleDetour(detourName)
   end
 end
 
+local function filterAssemblyRefs(assemblyRefs, sysfile)
+  local result = {}
+  local seenNames = {}
+  local sysfileName =  extractFileName(sysfile)
+  
+  for _, path in pairs(assemblyRefs) do
+    local fileName = extractFileName(path)
+    local skip = false
+    -- has core runtime assembly
+    if fileName == "mscorlib.dll" then skip = true end
+    -- sysfile is passed to compileCS separately
+    if sysfile and fileName == sysfile then skip = true end
+    if sysfileName and fileName == sysfileName then skip = true end
+    -- avoid duplicate assemblies with same name
+    if seenNames[fileName] then skip = true end
+    if not skip then
+      seenNames[fileName] = true
+      table.insert(result, path)
+    end
+  end
+  return result
+end
+
 local function tryCompileDetour(csharpScript)
   local detourinfo = {}
-  local assemblyRefs, sysfile = dotnetpatch_getAllReferences() -- get assembly paths
+  
+  local assemblyRefs, sysfile = dotnetpatch_getAllReferences() -- get & clean assembly paths
+  assemblyRefs = filterAssemblyRefs( assemblyRefs, sysfile )
 
   local csfile, err = compileCS( csharpScript, assemblyRefs, sysfile )
   if not csfile then
@@ -37,7 +61,7 @@ local function tryCompileDetour(csharpScript)
   -- new assembly created, now inject and hook
   local oldMethodName = className..'::'..methodDetour -- Class::Method
   local newMethodName = 'patched'..className..'::'..'new'..methodDetour -- patchedClass::newMethod
-  local oldMethodCaller = 'patched'..className..'::'..'old'..methodDetour -- "patchedClass::oldMethod"
+  local oldMethodCaller = 'patched'..className..'::'..'old'..methodDetour -- patchedClass::oldMethod
   
   local result, disableinfo, disablescript = InjectDotNetDetour( csfile, oldMethodName, newMethodName, oldMethodCaller )
   if result then
