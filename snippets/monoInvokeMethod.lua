@@ -41,15 +41,14 @@ function mono_invokeMethodFromClass( className, methodName, addrSymbolName, args
 
   local params = mono_method_get_parameters(methodID)
   if #args ~= #params.parameters then
-    error(
-      ( 'expected number of args: %d, got: %d' ):format( (#args or 0) , (#params.parameters or 0) )
-    )
+    error( ( 'expected number of args: %d, got: %d' ):format( (#args or 0) , (#params.parameters or 0) ) )
   end
 
   local args_t = {}
   for i=1, #params.parameters do
     args_t[i] = {}
-    args_t[i].type = monoTypeToVartypeLookup[ params.parameters[i].type ]
+    local monoType = params.parameters[i].type
+    args_t[i].type = monoType == MONO_TYPE_STRING and vtString or monoTypeToVartypeLookup[monoType] -- string specification, vtPointer otherwise
     args_t[i].value = args[i]
   end
 
